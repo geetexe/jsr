@@ -30,16 +30,14 @@ img.back{
 .modal{
     font-family: 'Poppins';
 }
-.side-graphic-container{
-    .side-graphic{
-        position: relative;
-        overflow: hidden;
-        .jsr-meditate{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+.side-graphic-container .side-graphic{
+    position: relative;
+    overflow: hidden;
+    .jsr-meditate{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 .jsr-btn-submit{

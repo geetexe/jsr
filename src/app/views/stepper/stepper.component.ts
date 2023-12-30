@@ -11,12 +11,7 @@ export class StepperComponent {
   modalState = 0;
 
   navigateStep(n:number){
-    if(n > 0){
-      this.activeStep++;
-    }
-    else{
-      this.activeStep--;
-    }
+    this.activeStep += n;
   }
 
   triggerUploading(){
