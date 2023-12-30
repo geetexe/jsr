@@ -389,22 +389,24 @@
 .certificateDwnld{
     position: relative;
 }
-.your-certificate{
+.your-name{
     position: absolute;
     left: 0;
     right: 0;
-    top: 33%;
-    font-size: 22px;
+    top: 34%;
+    font-size: 32px;
     font-weight: 600;
     background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
 }
-// .main-body{
-//     align-items: center;
-//     height: calc(100vh - 400px);
-//     @media (max-width: 767px) {
-//         padding: 0 20px;
-//     }
-// }
+.your-certificate{
+    position: relative;
+    width: 843px;
+    margin: auto;
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
