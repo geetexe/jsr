@@ -28,7 +28,7 @@
     background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
+    margin-bottom: 40px;
     @media (max-width: 767px) {
         font-size: 20px;
     }
@@ -79,6 +79,7 @@
     &.jsr-btn-retake {
         background: #fff;
         color: $orange-dark-900;
+        margin: 8px;
     }
 
     @media (max-width: 767px) {
@@ -126,6 +127,7 @@
     background: #FFF;
     padding: 20px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04), 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+    width: 100%;
 }
 
 .modal-footer.delete-confirmation {
@@ -195,6 +197,12 @@
 }
 
 .formControl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    form{
+        width: 100%;
+    }
     label {
         font-size: 20px;
         font-weight: 600;
@@ -224,7 +232,25 @@
         }
     }
 }
-
+::ng-deep .iti--allow-dropdown {
+    width: 100%;
+    input{
+        border-radius: 4px;
+        border: 1px solid #E6E6E6;
+        background: var(--Neutral-White, #FFF);
+        height: 48px;
+        font-size: 14px;
+        font-weight: 400;
+    
+        &::placeholder {
+            color: #999;
+        }
+        &:focus {
+            box-shadow: none;
+            border-color: #ebb07d;
+        }
+    }
+}
 // Country dropdown
 .flag-container {
     position: relative;
@@ -356,3 +382,29 @@
         margin-bottom: 10px;
     }
 }
+.errormsg{
+    font-size: 12px;
+    color: #EC1C24;
+}
+.certificateDwnld{
+    position: relative;
+}
+.your-certificate{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 33%;
+    font-size: 22px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+// .main-body{
+//     align-items: center;
+//     height: calc(100vh - 400px);
+//     @media (max-width: 767px) {
+//         padding: 0 20px;
+//     }
+// }

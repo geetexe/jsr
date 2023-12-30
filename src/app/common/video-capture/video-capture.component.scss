@@ -7,4 +7,20 @@
 
 .video {
     width: max-content;
+    position: relative;
+    width: 420px;
+}
+.action-btn{
+    outline: none;
+    border: none;
+    background: transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 40px;
+}
+.video-container{
+    position: relative;
+    width: 1005;
 }

@@ -20,7 +20,7 @@
 <ng-template #step0>
     <app-header></app-header>
     <div class="container">
-        <div class="row">
+        <div class="row main-body">
             <div class="col-12 col-md-7 formControl">
                 <form [formGroup]="userFormGroup" class="g-3">
                     <div class="row">
@@ -30,7 +30,7 @@
                                 placeholder="Enter Your Full Name" required>
 
                             <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
-                                   userForm.get('name')?.hasError('required')" class="alert alert-danger my-2"
+                                   userForm.get('name')?.hasError('required')" class="errormsg my-2"
                                 role="alert">
                                 Please enter your name
                             </div>
@@ -52,13 +52,13 @@
                                 [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone">
                             </ngx-intl-tel-input>
                             <div *ngIf="(userForm.get('phone')?.touched && userForm.get('phone')?.dirty) &&
-                                   userForm.get('phone')?.hasError('required')" class="alert alert-danger my-2"
+                                   userForm.get('phone')?.hasError('required')" class="errormsg my-2"
                                 role="alert">
                                 Please enter phone number.
                             </div>
                             <div *ngIf="(userForm.get('phone')?.touched && userForm.get('phone')?.dirty) &&
                                    userForm.get('phone')?.hasError('validatePhoneNumber')"
-                                class="alert alert-danger my-2" role="alert">
+                                class="errormsg my-2" role="alert">
                                 Please enter valid phone number.
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                     <span>Say</span>&nbsp;<em class="fw-bold">“Jai Shri Ram”</em>
                 </span>
             </div>
-            <div class="col-8 offset-2 mt-5 mb-5">
+            <div class="col-12 mt-5 d-flex justify-content-center mb-5">
                 <!-- remove the video-container afterwards: -->
                 <div class="video-container" style="background-color: #000; border-radius: 5px; height: 400px;">
                     <app-video-capture class="mb-2" [isRetake]="isRetake"
@@ -148,7 +148,7 @@
 
                             <div *ngIf="(certificateForm.get('age')?.touched && certificateForm.get('age')?.dirty) &&
                                    (certificateForm.get('age')?.hasError('min') || certificateForm.get('age')?.hasError('max'))"
-                                class="alert alert-danger my-2" role="alert">
+                                class="errormsg my-2" role="alert">
                                 Please enter valid age
                             </div>
                         </div>
@@ -163,8 +163,9 @@
                     </div>
                 </form>
             </div>
-            <div class="col-12 col-md-5 formControl">
+            <div class="col-12 col-md-5 certificateDwnld">
                 <img src="/assets/img/certificate.jpg" class="img-fluid certificate" />
+                <span class="your-certificate">Your name</span>
             </div>
         </div>
         <div class="row">

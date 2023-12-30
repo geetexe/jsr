@@ -81,6 +81,7 @@ $btn-border: #fdb14c;
    @media (max-width: 767px) {
        display: flex;
        align-items: center;
+       justify-content: center;
        margin: 0 15px;
        .btn-jsr{
            padding: 8px 2px;
