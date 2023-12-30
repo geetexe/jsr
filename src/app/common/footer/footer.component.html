@@ -1,0 +1,36 @@
+<div class="footer-container">
+    <div class="footer-bg d-flex w-100 justify-content-between">
+        <ng-container *ngTemplateOutlet="footerBG"></ng-container>
+    </div>
+    <div class="footer-content w-100 h-100 d-flex align-item-center justify-content-center text-center text-white">
+        <div class="footer-text">
+            <p>A billion voices, one divine chorus. Be a part of it.</p>
+            <p>करोड़ों स्वर, एक दिव्य गूंज. इसका हिस्सा बनें.</p>
+        </div>
+        <div class="footer-jsr pb-3 pt-1">
+            <button class="btn-jsr btn left">
+                <span class="text-gray">बोलो</span>&nbsp;<span class="text-orange">जय श्री राम!</span>
+            </button>
+            <img src="/assets/img/mic.svg" alt="Microphone icon" class="img-fluid mic-icon">
+            <button class="btn-jsr btn right"><span class="text-gray">Say</span>&nbsp;<span class="text-orange">Jai Shri Ram!</span></button>
+        </div>
+        <div class="footer-p-b">
+            Powered by <strong>Edfora</strong>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerBG>
+    <div class="graphic-left">
+        <img src="/assets/img/jsr-ne.svg" alt="Jai Shree Ram" class="img-fluid">
+    </div>
+    <div class="graphic-bow d-flex align-item-center">
+        <img src="/assets/img/bow.svg" alt="Jai Shree Ram" class="img-fluid">
+    </div>
+    <div class="graphic-bow d-flex align-item-center">
+        <img src="/assets/img/bow.svg" alt="Jai Shree Ram" class="img-fluid">
+    </div>
+    <div class="graphic-right">
+        <img src="/assets/img/jsr-nw.svg" alt="Jai Shree Ram" class="img-fluid">
+    </div>
+</ng-template>

@@ -1,0 +1,12 @@
+.app-shell{
+    position: relative;
+    min-height: 100vh;
+    .app-footer{
+        position: absolute;
+        width: 100%;
+        bottom:0;
+    }
+    .app-body{
+        padding-bottom: 200px;
+    }
+}

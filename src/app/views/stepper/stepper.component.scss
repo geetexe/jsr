@@ -1,0 +1,99 @@
+@import "./../../common/variables.scss";
+
+img.back{
+    height: 24px;
+}
+.jsr-el-container{
+    gap: 8px;
+    .say-jsr-el{
+        padding: 10px 80px;
+        border-radius: 40px;
+        background: rgba(255, 184, 47, 0.10);
+        span{
+            color: $gray-text;
+        }
+    }
+}
+.rec-vid-text{
+    font-size: 44px;
+    font-weight: 600;
+    color: $orange-dark-900;
+}
+.jsr-meditation{
+    animation: spin 10s infinite linear;
+}
+.loader{
+    overflow: hidden;
+    width: 70%;
+    margin: 0 auto;
+}
+.modal{
+    font-family: 'Poppins';
+}
+.side-graphic-container{
+    .side-graphic{
+        position: relative;
+        overflow: hidden;
+        .jsr-meditate{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+.jsr-btn-submit{
+    padding: 10px 46px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(248, 137, 56, 0.20) 0%, rgba(254, 169, 33, 0.20) 100%), #F99231;
+    &:not(.jsr-btn-cancel){
+        box-shadow: 0px 10px 15px 0px rgba(255, 201, 149, 0.40);
+    }
+    &.jsr-btn-retake{
+        background: #fff;
+        color: $orange-dark-900;
+    }
+}
+.thanks{
+    width: 120px;
+    height: auto;
+}
+.contribution-content{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    p{
+        line-height: 32px;
+    }
+}
+.delete-heading{
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+}
+.delete-subtext{
+    color: #333;
+    font-size: 16px;
+    font-weight: 400;
+}
+.gap-20{
+    gap: 20px;
+}
+.certificate{
+    border-radius: 24px;
+    background: #FFF;
+    padding: 20px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04), 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+}
+.modal-footer.delete-confirmation{
+    margin: 30px -15px 0 -15px;
+    padding: 20px 15px 5px 15px;
+}
+@keyframes spin {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

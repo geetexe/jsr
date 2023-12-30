@@ -1,0 +1,196 @@
+<ng-container [ngSwitch]="activeStep">
+    <ng-container *ngSwitchCase="0">
+        <ng-container *ngTemplateOutlet="step0"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="1">
+        <ng-container *ngTemplateOutlet="step1"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="2">
+        <ng-container *ngTemplateOutlet="step2"></ng-container>
+    </ng-container>
+</ng-container>
+
+<ng-template #sideGraphic>
+    <div class="side-graphic text-center">
+        <img class="img-fluid jsr-meditation" src="/assets/img/jsr-circular.svg"/>
+        <img class="img-fluid jsr-meditate" src="/assets/img/jsr-meditation.svg"/>
+    </div>
+</ng-template>
+
+<ng-template #step0>
+    <app-header></app-header>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <form class="g-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="fullName" class="form-label fw-bold">Enter Your Full Name</label>
+                            <input type="text" class="form-control" id="fullName" placeholder="Enter Your Full Name" required>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <label for="phone" class="form-label fw-bold">Enter Your Mobile Number</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Enter Your Mobile Number" required>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button class="btn jsr-btn-submit text-white" (click)="navigateStep(1)">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-5">
+                <div class="side-graphic-container">
+                    <ng-container *ngTemplateOutlet="sideGraphic"></ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #step1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button class="btn back-btn d-flex" (click)="navigateStep(-1)">
+                    <img src="/assets/img/back-icon.svg" alt="Back icon" class="img-fluid back">&nbsp;Back
+                </button>
+            </div>
+            <div class="col-12 text-center rec-vid-text">
+                Record your video
+            </div>
+            <div class="col-12 jsr-el-container d-flex justify-content-center mt-3 mb-3">
+                <span class="say-jsr-el">
+                    <span>बोलो</span>&nbsp;<em class="fw-bold">“जय श्री राम”</em>
+                </span>
+                <span class="say-jsr-el">
+                    <span>Say</span>&nbsp;<em class="fw-bold">“Jai Shri Ram”</em>
+                </span>
+            </div>
+            <div class="col-8 offset-2 mt-5 mb-5">
+                <!-- remove the video-container afterwards: -->
+                <div class="video-container" style="background-color: #000; border-radius: 5px; height: 400px;">
+                </div>
+            </div>
+            <div class="col-12 jsr-el-container d-flex justify-content-center mt-3 mb-3 gap-20">
+                <button class="btn jsr-btn-submit jsr-btn-retake" (click)="modalState=2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Retake</button>
+                <button class="btn jsr-btn-submit text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="triggerUploading()">Submit</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #step2>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button class="btn back-btn d-flex" (click)="activeStep = activeStep-1">
+                    <img src="/assets/img/back-icon.svg" alt="Back icon" class="img-fluid back">&nbsp;Back
+                </button>
+            </div>
+            <div class="col-12 text-center rec-vid-text">
+                Download Certificate
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-7">
+                <form class="g-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="stateSelection" class="form-label fw-bold">Select Your State Name</label>
+                            <select class="form-select" id="stateSelection" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <label for="age" class="form-label fw-bold">Enter Your Age</label>
+                            <input type="number" class="form-control" id="age" placeholder="Enter Your Age" required>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button class="btn jsr-btn-submit text-white" (click)="navigateStep(1)">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-5">
+                <img src="/assets/img/certificate.jpg" class="img-fluid certificate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center gap-20 d-flex justify-content-center mt-5">
+                <button class="btn jsr-btn-submit jsr-btn-retake">
+                    Download in Hindi&nbsp;<img class="img-fluid download" src="/assets/img/download.svg" />
+                </button>
+                <button class="btn jsr-btn-submit jsr-btn-retake">
+                    Download in English&nbsp;<img class="img-fluid download" src="/assets/img/download.svg" />
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+            <ng-container [ngSwitch]="modalState">
+                <ng-container *ngSwitchCase="0">
+                    <ng-container *ngTemplateOutlet="uploadingTpl"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="1">
+                    <ng-container *ngTemplateOutlet="videoUploadedTpl"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                    <ng-container *ngTemplateOutlet="deleteVideoTpl"></ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+      </div>
+    </div>
+</div>
+
+<ng-template #uploadingTpl>
+    <div class="loader">
+        <img class="img-fluid jsr-meditation" src="/assets/img/jsr-circular.svg"/>
+    </div>
+    <p class="text-center ff-poppins mt-3">Your video is uploading...</p>
+</ng-template>
+
+<ng-template #videoUploadedTpl>
+    <div class="contribution-content">
+        <div class="loader mt-4 mb-4">
+            <img class="img-fluid thanks" src="/assets/img/contribution-thanks.png"/>
+        </div>
+        <p class="text-center ff-poppins">
+            आपके योगदान के लिए धन्यवाद<br/>
+            <strong>|| जय श्री राम ||</strong>
+        </p>
+    </div>
+    <div class="text-center mb-4">
+        <button class="btn jsr-btn-submit text-white" data-bs-dismiss="modal" (click)="activeStep=activeStep+1">Go To Download Certificate</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteVideoTpl>
+    <div class="contribution-content">
+        <div class="loader mt-4 mb-4">
+            <img class="img-fluid thanks" src="/assets/img/delete-icon.svg"/>
+        </div>
+        <div class="text-center ff-poppins">
+            <div class="delete-heading mt-2 mb-2">Delete Video</div>
+            <div class="delete-subtext">Do you want to delete video?</div>
+        </div>
+    </div>
+    <div class="modal-footer delete-confirmation">
+        <button class="btn jsr-btn-cancel jsr-btn-submit jsr-btn-retake jsr-btn-cancel" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+        <button class="btn jsr-btn-submit text-white">Delete</button>
+    </div>
+</ng-template>
