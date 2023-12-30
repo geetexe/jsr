@@ -1,0 +1,11 @@
+<div>
+    <div>
+      <video [ngClass]="{'isVisible': showPreview, 'hidden': !showPreview}" id="video-1" class="video" #video autoplay></video>
+    </div>
+    <video class="video"
+            [ngClass]="{'isVisible': !showPreview, 'hidden': showPreview}" controls #recordedVideo></video>
+    <br>
+    <button class="btn btn-primary btn-lg" *ngIf="!isRecording && !isRecordCompelte" (click)="startRecording()">Start Recording</button>
+    <button class="btn btn-warning btn-lg" *ngIf="isRecording && !isRecordCompelte" (click)="stopRecording()">Stop Recording</button>
+    <!-- <button class="btn btn-primary btn-lg mx-3" *ngIf="isRecorded" (click)="upload()">Upload Video</button> -->
+  </div>
