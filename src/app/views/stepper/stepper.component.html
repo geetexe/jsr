@@ -110,7 +110,7 @@
                 <button class="btn jsr-btn-submit jsr-btn-retake" (click)="modalState=2" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop">Retake</button>
                 <button class="btn jsr-btn-submit text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    (click)="triggerUploading()">Submit</button>
+                  [disabled]=" !videoParts"  (click)="triggerUploading()">Submit</button>
             </div>
         </div>
     </div>
@@ -165,7 +165,8 @@
             </div>
             <div class="col-12 col-md-5 certificateDwnld">
                 <img src="/assets/img/certificate.jpg" class="img-fluid certificate" />
-                <!-- <span class="your-certificate">Your name</span> -->
+                <span style="top: 32% !important;font-size: 24px;" class="your-name">{{ username ? username : 'Your Name' }}</span>
+    
             </div>
         </div>
         <div class="row">
@@ -243,8 +244,3 @@
 </ng-template>
 
 <!-- download  certificate-->
-<div class="your-certificate">
-    <!-- <img src="/assets/img/certificate-hindi.jpg" class="img-fluid certificate" /> -->
-    <img src="/assets/img/certificate-English.jpg" class="img-fluid certificate" />
-    <span class="your-name">Your name</span>
-</div>

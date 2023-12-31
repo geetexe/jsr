@@ -19,6 +19,7 @@ export class StepperComponent {
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
   preferredCountries: CountryISO[] = [CountryISO.India];
+  username!: string;
 
   state = ["Andhra Pradesh",
     "Arunachal Pradesh",
@@ -63,6 +64,7 @@ export class StepperComponent {
   userFormGroup: FormGroup | any;
   certificateFormGroup: FormGroup | any;
   finalFormSubmitted: boolean = false
+  englishCertificate!: boolean;
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -133,11 +135,65 @@ export class StepperComponent {
   }
 
   enableCertificate() {
-      this.finalFormSubmitted = true;
-  } 
+    this.finalFormSubmitted = true;
+    this.username = this.dataService.getUserData.name;
+  }
 
   downloadCertificate(number: number) {
-      console.log(this.certificateForm.value, this.dataService.getUserData);
 
+    const src = !number ? '/assets/img/certificate-hindi.jpg' : "/assets/img/certificate-English.jpg";
+
+
+    const popupWin = window.open('', '_blank', 'width=600,height=600');
+    if (popupWin) {
+      popupWin.document.open();
+      popupWin.document.write(`
+          <html>
+            <head>
+              <title>Print</title>
+              <style>
+
+              .your-name{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 34%;
+                font-size: 32px;
+                font-weight: 600;
+                background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-align: center;
+            }
+            .your-certificate{
+                position: relative;
+                width: 843px;
+                margin: auto;
+                img{
+                    width: 100%;
+                    height: auto;
+                }
+
+                .certificate {
+                  border-radius: 24px;
+                  background: #FFF;
+                  padding: 20px;
+                  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04), 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+                  width: 100%;
+              }
+                // Add any additional styles for printing
+              </style>
+            </head>
+            <body onload="window.print(); window.onafterprint = function() { window.close(); }">
+              <div class="your-certificate">
+              <img src="${src}" class="img-fluid certificate" /> 
+            <span class="your-name">${this.username}</span>
+              </div>
+            </body>
+          </html>
+        `);
+      popupWin.document.close();
+    }
   }
+
 }
