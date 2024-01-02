@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from 'src/enviornments/enviornment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class DataService {
   private appUrl: string = environment.appUrl;
   private isFormSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private videoUploadUrl!: string;
+  private profileId!: string;
   private s3headerObject: any = {} as any;
   constructor(private _http: HttpClient) { }
 
@@ -30,25 +31,23 @@ export class DataService {
     return this.isFormSubmit;
   }
 
-  public submitData() {
-    try {
-        const body = JSON.parse(JSON.stringify(this._userData.value));
-        body.phone = body.phone.number;
-        const options = {
-          'x-api-key': environment.userToken,
-        }
-        this._http.post(this.appUrl,body, {
-          headers: options,
-        }).subscribe((data:any) => {
-        
-        this.videoUploadUrl = data['signedUrl'];
-              
-        // this.processUrl(data['signedUrl']);
-        this.isFormSubmitted.next(true);
-        });
-    } catch (e) {
-      console.error(e)
+  public submitData(payload?:any) {
+    const body = payload || JSON.parse(JSON.stringify(this._userData.value));
+    if(!payload){
+      body.phone = body.phone.number;
     }
+    else{
+      body.profileId = this.profileId;
+    }
+    const options = {
+      'x-api-key': environment.userToken,
+    }
+    return this._http.post(this.appUrl, body, {headers: options});
+  }
+
+  storeVideoUrl(signedUrl:string, profileId:string){
+    this.videoUploadUrl = signedUrl;
+    profileId && (this.profileId = profileId);
   }
 
   processUrl(url: string) {
@@ -67,21 +66,16 @@ export class DataService {
   }
 
   public uploadVideo(videoObject: any) {
-      if (videoObject) {
-        const formData = new FormData();
-        
-        // Object.keys(this.s3headerObject).forEach(key => {
-
-        //   formData.append(key, this.s3headerObject[key]);
-        // });
-
-
-        formData.append('file', videoObject);
-        
-
-        this._http.put(this.videoUploadUrl,formData).subscribe((data:any) => {
-            console.log(data);
-        });
-      }
+      // if (videoObject) {
+      //   // Object.keys(this.s3headerObject).forEach(key => {
+      //     //   formData.append(key, this.s3headerObject[key]);
+      //     // });
+      // }
+      const formData = new FormData();
+      var fileFromBlob = new File([videoObject], 'videoJSR.webm');
+      formData.append('file', fileFromBlob);
+      const options = { 'Content-Type': 'binary/octet-stream' };
+      debugger;
+      return this._http.put(this.videoUploadUrl, formData, {headers: options});
   }
 }

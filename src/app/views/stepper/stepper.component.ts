@@ -89,23 +89,19 @@ export class StepperComponent {
   }
 
   submit() {
-    try {
-      this.isLoading = true;
-      this.dataService.UserData = this.userFormGroup.value;
-      this.dataService.submitData();
-      this.navigateStep(1);
-    } catch (e) {
-      console.error(e);
-    }
+    this.isLoading = true;
+    this.dataService.UserData = this.userFormGroup.value;
+    this.dataService.submitData().subscribe(
+      (res:any) => {
+        this.isLoading = false;
+        this.dataService.storeVideoUrl(res?.['signedUrl'], res?.['profileId']);
+        this.navigateStep(1);
+      }
+    );
   }
 
   navigateStep(n: number) {
-    if (n > 0) {
-      this.activeStep++;
-    }
-    else {
-      this.activeStep--;
-    }
+    this.activeStep += n;
   }
 
 
@@ -121,22 +117,35 @@ export class StepperComponent {
   triggerUploading() {
     if (this.videoParts) {
       this.modalState = 0;
-      setTimeout(() => {
-        this.modalState = 1;
-      }, 5000);
-      this.dataService.uploadVideo(this.videoParts);
+      this.dataService.uploadVideo(this.recordedVideo).subscribe(
+        (res:any) => {
+          this.modalState = 1;
+        }
+      );
     }
   }
 
   handleData(ev: Blob[]) {
+    debugger;
     if (ev) {
       this.videoParts = ev;
     }
   }
 
   enableCertificate() {
-    this.finalFormSubmitted = true;
+    this.finalFormSubmitted = false;
     this.username = this.dataService.getUserData.name;
+    this.dataService.submitData(this.certificateFormGroup.value).subscribe(
+      (res:any) => {
+        this.finalFormSubmitted = true;
+      }
+    )
+  }
+
+  recordedVideo:any = null;
+  onRecordCompletion(ev:any){
+    this.recordedVideo = ev.resBlob;
+    console.log(this.recordedVideo);
   }
 
   downloadCertificate(number: number) {
@@ -158,17 +167,20 @@ export class StepperComponent {
                 left: 0;
                 right: 0;
                 top: 34%;
+                width: 843px;
+                text-align: center;
                 font-size: 32px;
                 font-weight: 600;
-                background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
+                background: #EB6A23;
+                color: #EB6A23;
                 -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                text-align: center;
+                /* -webkit-text-fill-color: transparent; */
             }
             .your-certificate{
                 position: relative;
                 width: 843px;
                 margin: auto;
+            }
                 img{
                     width: 100%;
                     height: auto;
