@@ -92,7 +92,7 @@ export class StepperComponent {
     this.isLoading = true;
     this.dataService.UserData = this.userFormGroup.value;
     this.dataService.submitData().subscribe(
-      (res:any) => {
+      (res: any) => {
         this.isLoading = false;
         this.dataService.storeVideoUrl(res?.['signedUrl'], res?.['profileId']);
         this.navigateStep(1);
@@ -114,19 +114,37 @@ export class StepperComponent {
     this.videoParts = [];
   }
 
-  triggerUploading() {
+  async triggerUploading() {
     if (this.videoParts) {
       this.modalState = 0;
-      this.dataService.uploadVideo(this.recordedVideo).subscribe(
-        (res:any) => {
-          this.modalState = 1;
-        }
-      );
+
+      const { src }: any = document.querySelector("video.video.isVisible");
+
+      let blob = null;
+      let file = null;
+      await fetch(src).then(async res => {
+        blob = await res?.blob();
+
+        file = new File([blob], 'file', { type: 'video/x-matroska' });
+        let container = new DataTransfer();
+        container.items.add(file);
+
+        const formData = new FormData();
+        formData.append('file', blob);
+        this.dataService.uploadFile(formData).subscribe(
+          (res: any) => {
+            this.modalState = 1;
+          },
+          err => {
+            console.log(err);
+          }
+        )
+      })
+
     }
   }
 
   handleData(ev: Blob[]) {
-    debugger;
     if (ev) {
       this.videoParts = ev;
     }
@@ -136,14 +154,14 @@ export class StepperComponent {
     this.finalFormSubmitted = false;
     this.username = this.dataService.getUserData.name;
     this.dataService.submitData(this.certificateFormGroup.value).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.finalFormSubmitted = true;
       }
     )
   }
 
-  recordedVideo:any = null;
-  onRecordCompletion(ev:any){
+  recordedVideo: any = null;
+  onRecordCompletion(ev: any) {
     this.recordedVideo = ev.resBlob;
     console.log(this.recordedVideo);
   }

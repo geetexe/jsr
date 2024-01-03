@@ -11,10 +11,11 @@ export class VideoCaptureComponent implements OnInit {
   @ViewChild('recordedVideo') recordVideoElementRef!: ElementRef;
   @ViewChild('video') videoElementRef!: ElementRef;
   @Input() isRetake: boolean = false;
+  @Output() isRetakeComplete: EventEmitter<any> = new EventEmitter<any>();
   @Output() isRecorded: EventEmitter<Blob[]> = new EventEmitter<Blob[]>();
 
-  videoForm!:FormGroup;
-  @ViewChild('videoRef') videoRef!:ElementRef;
+  videoForm!: FormGroup;
+  @ViewChild('videoRef') videoRef!: ElementRef;
 
   videoElement!: HTMLVideoElement;
   recordVideoElement!: HTMLVideoElement;
@@ -26,16 +27,16 @@ export class VideoCaptureComponent implements OnInit {
   showPreview: boolean = true;
   isRecordCompelte: boolean = false;
 
-  constructor(private dataService: DataService, private fb:FormBuilder) {}
+  constructor(private dataService: DataService, private fb: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log({changes});
-    if (changes && changes['isRetake']) {
+    if (changes && changes['isRetake'].currentValue) {
       this.showPreview = true;
       this.isRecordCompelte = false;
       this.isRecorded.emit([]);
       this.recordedBlobs = [];
       this.ngOnInit();
+      this.isRetakeComplete.emit(false);
     }
   }
 
@@ -56,7 +57,7 @@ export class VideoCaptureComponent implements OnInit {
         }
       })
       .then((stream) => {
-       
+
         this.videoElement = this.videoElementRef!.nativeElement;
         this.recordVideoElement = this.recordVideoElementRef!.nativeElement;
 
@@ -67,10 +68,14 @@ export class VideoCaptureComponent implements OnInit {
 
   startRecording() {
     this.isRecording = !this.isRecording;
-    
     this.recordedBlobs = [];
-    let options: any = { mimeType: 'video/webm',
-         };
+    let options: any = {
+      audioBitsPerSecond: 128000,
+      videoBitsPerSecond: 2500000,
+      mimeType:  MediaRecorder.isTypeSupported("video/webm;codecs=h264") ?  "video/webm;codecs=h264":
+       navigator.userAgent.indexOf('Safari') > -1  ? 'video/mp4;codecs=avc1' : 'video/webm',
+    };
+
 
     try {
       this.mediaRecorder = new MediaRecorder(this.stream, options);
@@ -94,17 +99,17 @@ export class VideoCaptureComponent implements OnInit {
     this.isRecordCompelte = true;
   }
 
-  async submitVideo(){
+  async submitVideo() {
 
 
-    const {src}:any = document.querySelector("video.video.isVisible");
+    const { src }: any = document.querySelector("video.video.isVisible");
     console.log(src);
 
     let blob = null;
     let file = null;
     await fetch(src).then(async res => {
       blob = await res?.blob();
-      file = new File([blob], 'file', {type: 'video/x-matroska'});
+      file = new File([blob], 'file', { type: 'video/x-matroska' });
       let container = new DataTransfer();
       container.items.add(file);
       this.videoRef.nativeElement.files = container.files;
@@ -116,7 +121,7 @@ export class VideoCaptureComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', blob);
       this.dataService.uploadFile(formData).subscribe(
-        (res:any) => {
+        (res: any) => {
           debugger;
         },
         err => {
@@ -152,9 +157,15 @@ export class VideoCaptureComponent implements OnInit {
   onStopRecordingEvent() {
     try {
       this.mediaRecorder.onstop = (event: Event) => {
-        const videoBuffer = new Blob(this.recordedBlobs, {
+        let videoBuffer = new Blob(this.recordedBlobs, {
           type: 'video/webm',
         });
+
+        if (navigator.userAgent.indexOf('Safari') > -1) {
+          videoBuffer = new Blob(this.recordedBlobs, {
+            type: 'video/mp4'
+          })
+        }
         this.downloadUrl = window.URL.createObjectURL(videoBuffer); // you can download with <a> tag
         this.recordVideoElement.src = this.downloadUrl;
       };
@@ -165,6 +176,6 @@ export class VideoCaptureComponent implements OnInit {
 
   upload() {
     if (this.recordedBlobs)
-    this.dataService.uploadVideo(this.recordedBlobs);
-}
+      this.dataService.uploadVideo(this.recordedBlobs);
+  }
 }

@@ -105,6 +105,7 @@
                 <!-- remove the video-container afterwards: -->
                 <div class="video-container" style="background-color: #000; border-radius: 5px; height: 400px;">
                     <app-video-capture class="mb-2" [isRetake]="isRetake" (recordCompleted)="onRecordCompletion($event)"
+                        (isRetakeComplete)="isRetake = $event;"
                         (isRecorded)="handleData($event)"></app-video-capture>
                 </div>
             </div>

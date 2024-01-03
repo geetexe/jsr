@@ -39,6 +39,14 @@ export class DataService {
     else{
       body.profileId = this.profileId;
     }
+
+    console.log(navigator.userAgent);
+
+    if (navigator.userAgent.indexOf('Safari') > -1 && !navigator.userAgent.includes('Chrome')) {
+      body['videoFormat'] = 'mp4';
+    } else {
+      body['videoFormat'] = 'webm'
+    }
     const options = {
       'x-api-key': environment.userToken,
     }
@@ -50,6 +58,7 @@ export class DataService {
       'x-api-key': environment.userToken,
       'Content-Type': 'binary/octet-stream'
     }
+    console.log(this.profileId);
     return this._http.put(this.videoUploadUrl, body, {headers: options});
   }
 
@@ -73,17 +82,23 @@ export class DataService {
 
   }
 
-  public uploadVideo(videoObject: any) {
+
+
+   public async uploadVideo(videoObject: any) {
       // if (videoObject) {
       //   // Object.keys(this.s3headerObject).forEach(key => {
       //     //   formData.append(key, this.s3headerObject[key]);
       //     // });
       // }
+
+
+
       const formData = new FormData();
+
       var fileFromBlob = new File([videoObject], 'videoJSR.webm');
       formData.append('file', fileFromBlob);
       const options = { 'Content-Type': 'binary/octet-stream' };
-      debugger;
+      // console.log(formData);
       return this._http.put(this.videoUploadUrl, formData, {headers: options});
   }
 }
