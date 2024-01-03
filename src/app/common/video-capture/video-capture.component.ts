@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 declare var MediaRecorder: any;
 @Component({
   selector: 'app-video-capture',
@@ -12,6 +13,9 @@ export class VideoCaptureComponent implements OnInit {
   @Input() isRetake: boolean = false;
   @Output() isRecorded: EventEmitter<Blob[]> = new EventEmitter<Blob[]>();
 
+  videoForm!:FormGroup;
+  @ViewChild('videoRef') videoRef!:ElementRef;
+
   videoElement!: HTMLVideoElement;
   recordVideoElement!: HTMLVideoElement;
   mediaRecorder: any;
@@ -22,10 +26,11 @@ export class VideoCaptureComponent implements OnInit {
   showPreview: boolean = true;
   isRecordCompelte: boolean = false;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private fb:FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes['isRetake'].currentValue) {
+    console.log({changes});
+    if (changes && changes['isRetake']) {
       this.showPreview = true;
       this.isRecordCompelte = false;
       this.isRecorded.emit([]);
@@ -35,6 +40,9 @@ export class VideoCaptureComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.videoForm = this.fb.group({
+      video: [null]
+    });
     let width = document.getElementById('video-1')?.clientWidth;
     navigator.mediaDevices
       .getUserMedia({
@@ -84,6 +92,41 @@ export class VideoCaptureComponent implements OnInit {
     this.stream && this.stream.getTracks() && this.stream.getTracks().forEach(track => track.stop());
     this.isRecorded.emit(this.recordedBlobs);
     this.isRecordCompelte = true;
+  }
+
+  async submitVideo(){
+
+
+    const {src}:any = document.querySelector("video.video.isVisible");
+    console.log(src);
+
+    let blob = null;
+    let file = null;
+    await fetch(src).then(async res => {
+      blob = await res?.blob();
+      file = new File([blob], 'file', {type: 'video/x-matroska'});
+      let container = new DataTransfer();
+      container.items.add(file);
+      this.videoRef.nativeElement.files = container.files;
+      console.log({
+        file,
+        blob,
+        value: this.videoForm.value
+      });
+      const formData = new FormData();
+      formData.append('file', blob);
+      this.dataService.uploadFile(formData).subscribe(
+        (res:any) => {
+          debugger;
+        },
+        err => {
+          debugger;
+        }
+      )
+    })
+
+
+
   }
 
   playRecording() {

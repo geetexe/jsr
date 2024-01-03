@@ -45,6 +45,14 @@ export class DataService {
     return this._http.post(this.appUrl, body, {headers: options});
   }
 
+  public uploadFile(body:any){
+    const options = {
+      'x-api-key': environment.userToken,
+      'Content-Type': 'binary/octet-stream'
+    }
+    return this._http.put(this.videoUploadUrl, body, {headers: options});
+  }
+
   storeVideoUrl(signedUrl:string, profileId:string){
     this.videoUploadUrl = signedUrl;
     profileId && (this.profileId = profileId);
