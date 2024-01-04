@@ -77,7 +77,7 @@ export class StepperComponent {
 
     this.certificateFormGroup = new FormGroup({
       state: new FormControl('', [Validators.required]),
-      age: new FormControl(null, [Validators.required, Validators.max(150), Validators.min(0)])
+      age: new FormControl(null, [Validators.required, Validators.max(150), Validators.min(0), this.validateNumber]),
     });
   }
 
@@ -86,6 +86,14 @@ export class StepperComponent {
       let value = control.value;
       return  /^[a-zA-Z\u0901-\u097F ]+$/.test(value) ? null :  {'invalidChar': true};
       
+    }
+    return null;
+  }
+
+  validateNumber(control: FormControl): ValidationErrors| null {
+    if (control.value) {
+      console.log(/^[0-9]*$/.test(control.value));
+      return /^[0-9]*$/.test(control.value) ? null :  {'pat': true}
     }
     return null;
   }
@@ -113,6 +121,10 @@ export class StepperComponent {
   navigateStep(n: number) {
     this.activeStep += n;
     this.dataService.stepperSubject.next(this.activeStep);
+
+    if (this.activeStep == 2) {
+      window.scrollTo(0, 0);
+    }
   }
 
 

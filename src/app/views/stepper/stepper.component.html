@@ -151,6 +151,7 @@
             <div class="col-12 text-center rec-vid-text sc-3">
                 Download Certificate
             </div>
+
         </div>
         <div class="row mb-5">
             <div class="col-12 col-md-7 formControl">
@@ -161,7 +162,7 @@
                             <div class="custom-select">
                                 <fieldset [disabled]="finalFormSubmitted">
                                     <select formControlName="state"  class="form-select" id="stateSelection" required>
-                                        <option selected disabled value="">Select your state</option>
+                                        <option selected disabled value="">Select your state name</option>
                                         <option *ngFor="let s of state">{{ s }}</option>
                                     </select>
                                 </fieldset>
@@ -171,14 +172,18 @@
                     <div class="row mt-4">
                         <div class="col-md-8">
                             <label for="age" class="form-label fw-bold">Enter Your Age</label>
-                            <input type="number" [readonly]="finalFormSubmitted" formControlName="age" step="1" min="0" class="form-control" id="age"
+                            <input type="text" [readonly]="finalFormSubmitted" formControlName="age" step="1" min="0" class="form-control" id="age"
                                 placeholder="Enter Your Age" required>
 
-                            <div *ngIf="(certificateForm.get('age')?.touched && certificateForm.get('age')?.dirty) &&
-                                   (certificateForm.get('age')?.hasError('min') || certificateForm.get('age')?.hasError('max'))"
+                            <div *ngIf="(certificateForm.get('age')?.touched || certificateForm.get('age')?.dirty) &&
+                                   (certificateForm.get('age')?.hasError('min') || certificateForm.get('age')?.hasError('max') || certificateForm.get('age')?.hasError('pat'))"
                                 class="errormsg my-2" role="alert">
                                 Please enter valid age
                             </div>
+
+                      
+
+                            
                         </div>
 
 
@@ -252,7 +257,7 @@
         </p>
     </div>
     <div class="text-center mb-4">
-        <button class="btn jsr-btn-submit text-white" data-bs-dismiss="modal" (click)="activeStep=activeStep+1">Go To
+        <button class="btn jsr-btn-submit text-white" data-bs-dismiss="modal" (click)="navigateStep(+1)">Go To
             Download Certificate</button>
     </div>
 </ng-template>

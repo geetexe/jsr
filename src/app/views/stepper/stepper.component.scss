@@ -9,7 +9,7 @@
      margin-bottom: 30px !important;
     }
     .say-jsr-el {
-        padding: 10px 80px;
+        padding: 10px 34px;
         border-radius: 40px;
         background: rgba(255, 184, 47, 0.10);
 
@@ -32,7 +32,7 @@
     background: linear-gradient(90deg, #EB6A23 -4.63%, #F7AA72 101.65%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 40px;
+    margin-bottom: -2px;
     @media (max-width: 767px) {
         font-size: 20px;
         margin-bottom: -4px;
@@ -44,6 +44,8 @@
         font-size: 20px;
         margin-bottom: 20px;
     }
+
+    margin-bottom: 40px;
 }
 
 .jsr-meditation {
@@ -218,6 +220,11 @@
     justify-content: center;
     form{
         width: 100%;
+        margin-bottom: 79px;
+        margin-left: 102px;
+        @media (max-width: 767px) {
+            margin: auto;
+        }
     }
     label {
         font-size: 20px;
