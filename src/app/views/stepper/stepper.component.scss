@@ -54,7 +54,7 @@
         overflow: hidden;
 
         @media (max-width: 767px) {
-            width: 360px;
+            width: 300px;
             margin: auto;
         }
 
@@ -163,7 +163,8 @@
         position: relative;
 
         @media (max-width: 767px) {
-            width: 95%;
+            width: 100%;
+            height: auto;
         }
 
         .timer {
@@ -349,6 +350,7 @@
     @media (max-width: 767px) {
         font-size: 14px;
         margin: 20px 0 40px;
+        padding-left: 0;
     }
 
     &:active {
@@ -381,6 +383,13 @@
         flex-wrap: wrap;
         margin-bottom: 10px;
     }
+    .pa-0{
+        padding: 0;
+    }
+    .mt-5{
+        margin-top: 0!important;
+        margin-bottom: 12px!important;
+    }
 }
 .errormsg{
     font-size: 12px;
@@ -388,6 +397,9 @@
 }
 .certificateDwnld{
     position: relative;
+    @media (max-width: 767px) {
+        margin-top: 40px;
+    }
 }
 .your-name{
     position: absolute;

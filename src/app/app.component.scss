@@ -1,6 +1,11 @@
 .app-shell{
     position: relative;
     min-height: 100vh;
+    .app-body{
+        @media (max-width: 767px) {
+            padding: 0 20px;
+        }
+    }
     .app-footer{
         width: 100%;
         bottom:0;

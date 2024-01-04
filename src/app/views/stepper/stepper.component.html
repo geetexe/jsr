@@ -85,7 +85,7 @@
 <ng-template #step1>
     <div class="container">
         <div class="row">
-            <div class="col-12 m-center">
+            <div class="col-12 m-center pa-0">
                 <button class="btn back-btn d-flex" (click)="navigateStep(-1)">
                     <img src="/assets/img/back-icon.svg" alt="Back icon" class="back-img">&nbsp;Back
                 </button>
@@ -101,9 +101,9 @@
                     <span>Say</span>&nbsp;<em class="fw-bold">“Jai Shri Ram”</em>
                 </span>
             </div>
-            <div class="col-12 mt-5 d-flex justify-content-center mb-5">
+            <div class="col-12 mt-5 d-flex justify-content-center mb-5 video-section">
                 <!-- remove the video-container afterwards: -->
-                <div class="video-container" style="background-color: #000; border-radius: 5px; height: 400px;">
+                <div class="video-container">
                     <app-video-capture class="mb-2" [isRetake]="isRetake" (recordCompleted)="onRecordCompletion($event)"
                         (isRetakeComplete)="isRetake = $event;"
                         (isRecorded)="handleData($event)"></app-video-capture>
@@ -159,7 +159,7 @@
 
                     </div>
                     <div class="row mt-4">
-                        <div class="col-12">
+                        <div class="col-12 m-center">
                             <button class="btn jsr-btn-submit text-white" [disabled]="certificateForm.invalid || finalFormSubmitted"
                                 (click)="enableCertificate()">Submit</button>
                         </div>
