@@ -7,6 +7,7 @@ import { LogoComponent } from 'src/app/common/logo/logo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { VideoCaptureComponent } from 'src/app/common/video-capture/video-capture.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { FooterComponent } from 'src/app/common/footer/footer.component';
 
 const routes:Routes = [
   {
@@ -20,7 +21,8 @@ const routes:Routes = [
     StepperComponent,
     HeaderComponent,
     LogoComponent,
-    VideoCaptureComponent
+    VideoCaptureComponent,
+    // FooterComponent,
   ],
   imports: [
     CommonModule,

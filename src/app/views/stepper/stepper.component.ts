@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
 import { DataService } from 'src/app/common/services/data.service';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-stepper',
@@ -69,9 +70,9 @@ export class StepperComponent {
 
   ngOnInit(): void {
     this.userFormGroup = new FormGroup({
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3), this.validateSpecialChar]),
       // age: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required, this.validateSpecialChar]),
+      // phone: new FormControl('', [Validators.required, this.validateSpecialChar]),
     });
 
     this.certificateFormGroup = new FormGroup({
@@ -82,9 +83,8 @@ export class StepperComponent {
 
   validateSpecialChar(control: FormControl): ValidationErrors| null {
     if (control.value) {
-      let value = control?.value?.number;
-      
-      return  /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value) ? { 'invalidChar': true} :  null;
+      let value = control.value;
+      return  /^[a-zA-Z\u0901-\u097F ]+$/.test(value) ? null :  {'invalidChar': true};
       
     }
     return null;
@@ -112,6 +112,7 @@ export class StepperComponent {
 
   navigateStep(n: number) {
     this.activeStep += n;
+    this.dataService.stepperSubject.next(this.activeStep);
   }
 
 
@@ -168,6 +169,8 @@ export class StepperComponent {
         this.finalFormSubmitted = true;
       }
     )
+    let bottom = document.body.scrollHeight + 100;
+    window.scrollTo(0, bottom);
   }
 
   recordedVideo: any = null;
@@ -199,7 +202,7 @@ export class StepperComponent {
                 text-align: center;
                 font-size: 32px;
                 font-weight: 600;
-                background: #EB6A23;
+                background: transparent;
                 color: #EB6A23;
                 -webkit-background-clip: text;
                 /* -webkit-text-fill-color: transparent; */
@@ -224,15 +227,25 @@ export class StepperComponent {
                 // Add any additional styles for printing
               </style>
             </head>
-            <body onload="window.print(); window.onafterprint = function() { window.close(); }">
+            <body">
               <div class="your-certificate">
               <img src="${src}" class="img-fluid certificate" /> 
-            <span class="your-name">${this.username}</span>
-              </div>
+               <span class="your-name">${this.username}</span>
+             </div>
             </body>
           </html>
         `);
       popupWin.document.close();
+
+    html2canvas(popupWin.document.body).then((canvas: any) => {
+      const image = canvas.toDataURL('image/png');
+
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = 'certificate.png';
+
+      link.click();
+    });
     }
   }
 

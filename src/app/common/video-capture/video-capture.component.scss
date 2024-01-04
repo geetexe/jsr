@@ -23,6 +23,13 @@
     right: 0;
     text-align: center;
     bottom: 40px;
+
+    @media (max-width: 767px) {
+        img {
+            height: 48px;
+            width: 48px;
+        }
+    }
 }
 .video-container{
     position: relative;

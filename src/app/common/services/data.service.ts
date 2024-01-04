@@ -13,6 +13,7 @@ export class DataService {
   private videoUploadUrl!: string;
   private profileId!: string;
   private s3headerObject: any = {} as any;
+  stepperSubject: BehaviorSubject<any> = new BehaviorSubject<any>(0);
   constructor(private _http: HttpClient) { }
 
   public get getUserData(): any {
@@ -34,7 +35,7 @@ export class DataService {
   public submitData(payload?:any) {
     const body = payload || JSON.parse(JSON.stringify(this._userData.value));
     if(!payload){
-      body.phone = body.phone.number;
+      // body.phone = body.phone.number;
     }
     else{
       body.profileId = this.profileId;

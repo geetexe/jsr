@@ -29,18 +29,29 @@
                             <input type="text" class="form-control" id="fullName" formControlName="name"
                                 placeholder="Enter Your Full Name" required>
 
-                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
+                            <div *ngIf="(userForm.get('name')?.touched && userForm.get('name')?.dirty) &&
                                    userForm.get('name')?.hasError('required')" class="errormsg my-2"
                                 role="alert">
                                 Please enter your name
                             </div>
+
+                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
+                                   userForm.get('name')?.hasError('minLength')" class="errormsg my-2"
+                                role="alert">
+                                Your name must contain atleast 3 characters
+                            </div>
+
+                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
+                            userForm.get('name')?.hasError('invalidChar')" class="errormsg my-2"
+                         role="alert">
+                            Please enter a valid name
+                     </div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <!-- <div class="row mt-4">
                         <div class="col-md-8">
                             <label for="phone" class="form-label fw-bold">Enter Your Mobile Number</label>
-                            <!-- <input type="text" class="form-control" id="phone" formControlName="phone"
-                                placeholder="Enter Your Mobile Number" required> -->
+
 
                             <ngx-intl-tel-input [cssClass]="'form-control'" style="width: 100%;"
                                 [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true"
@@ -67,13 +78,13 @@
                             Special characters are not allowed.
                      </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mt-4">
                         <div class="col-12 m-center">
 
                             <!-- <button class="btn jsr-btn-submit text-white" (click)="navigateStep(1);">>>></button> -->
-                            <button class="btn jsr-btn-submit text-white" [disabled]="userForm.invalid || isLoading"
-                                (click)="submit()">{{isLoading ? 'Submitting...' : 'Submit'}}</button>
+                            <button tabindex="1" class="btn jsr-btn-submit text-white" [disabled]="userForm.invalid || isLoading"
+                                (click)="submit()">{{isLoading ? 'Please wait...' : 'Next'}}</button>
                         </div>
                     </div>
                 </form>
@@ -85,6 +96,11 @@
             </div>
         </div>
     </div>
+    <!-- <div style="position: relative;">
+        <div class="app-footer">
+            <app-footer></app-footer>
+          </div>
+    </div> -->
 </ng-template>
 
 <ng-template #step1>
@@ -106,7 +122,7 @@
                     <span>Say</span>&nbsp;<em class="fw-bold">“Jai Shri Ram”</em>
                 </span>
             </div>
-            <div class="col-12 d-flex justify-content-center mb-5 video-section">
+            <div class="col-12 d-flex justify-content-center mb-5 mb video-section">
                 <!-- remove the video-container afterwards: -->
                 <div class="video-container">
                     <app-video-capture class="mb-2" [isRetake]="isRetake" (recordCompleted)="onRecordCompletion($event)"
@@ -114,7 +130,7 @@
                         (isRecorded)="handleData($event)"></app-video-capture>
                 </div>
             </div>
-            <div class="col-12 jsr-el-container d-flex justify-content-center mt-3 mb-5 gap-20">
+            <div *ngIf="videoParts" class="col-12 jsr-el-container d-flex justify-content-center mt-3 mb-5 gap-20">
                 <button class="btn jsr-btn-submit jsr-btn-retake" (click)="modalState=2" data-bs-toggle="modal"
                    [disabled]="!videoParts" data-bs-target="#staticBackdrop">Retake</button>
                 <button class="btn jsr-btn-submit text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
@@ -132,7 +148,7 @@
                     <img src="/assets/img/back-icon.svg" alt="Back icon" class="back-img">&nbsp;Back
                 </button>
             </div>
-            <div class="col-12 text-center rec-vid-text">
+            <div class="col-12 text-center rec-vid-text sc-3">
                 Download Certificate
             </div>
         </div>
