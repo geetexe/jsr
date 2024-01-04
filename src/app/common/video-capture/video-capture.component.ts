@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 declare var MediaRecorder: any;
@@ -7,7 +7,7 @@ declare var MediaRecorder: any;
   templateUrl: './video-capture.component.html',
   styleUrls: ['./video-capture.component.scss']
 })
-export class VideoCaptureComponent implements OnInit {
+export class VideoCaptureComponent implements OnInit, OnDestroy {
   @ViewChild('recordedVideo') recordVideoElementRef!: ElementRef;
   @ViewChild('video') videoElementRef!: ElementRef;
   @Input() isRetake: boolean = false;
@@ -40,12 +40,21 @@ export class VideoCaptureComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+      if (this.stream) {
+        this.stream.getTracks() && this.stream.getTracks().forEach(track => {
+            track.stop();
+        });
+      }
+  }
+
   async ngOnInit() {
     this.videoForm = this.fb.group({
       video: [null]
     });
     let width = document.getElementById('video-1')?.clientWidth;
-    navigator.mediaDevices
+    if ('navigator' in window) {
+      navigator.mediaDevices
       .getUserMedia({
         video: {
           height: 400,
@@ -64,6 +73,7 @@ export class VideoCaptureComponent implements OnInit {
         this.stream = stream;
         this.videoElement.srcObject = this.stream;
       });
+    }
   }
 
   startRecording() {
@@ -103,7 +113,7 @@ export class VideoCaptureComponent implements OnInit {
 
 
     const { src }: any = document.querySelector("video.video.isVisible");
-    console.log(src);
+    // console.log(src);
 
     let blob = null;
     let file = null;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
 import { DataService } from 'src/app/common/services/data.service';
 
@@ -13,7 +13,7 @@ export class StepperComponent {
 
   modalState = 0;
   isRetake: boolean = false;
-  videoParts!: Blob[];
+  videoParts!: any;
   separateDialCode = false;
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
@@ -71,13 +71,23 @@ export class StepperComponent {
     this.userFormGroup = new FormGroup({
       name: new FormControl('', [Validators.required]),
       // age: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required,]),
+      phone: new FormControl('', [Validators.required, this.validateSpecialChar]),
     });
 
     this.certificateFormGroup = new FormGroup({
       state: new FormControl('', [Validators.required]),
       age: new FormControl(null, [Validators.required, Validators.max(150), Validators.min(0)])
     });
+  }
+
+  validateSpecialChar(control: FormControl): ValidationErrors| null {
+    if (control.value) {
+      let value = control?.value?.number;
+      
+      return  /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value) ? { 'invalidChar': true} :  null;
+      
+    }
+    return null;
   }
 
   public get userForm(): FormGroup {
@@ -163,7 +173,7 @@ export class StepperComponent {
   recordedVideo: any = null;
   onRecordCompletion(ev: any) {
     this.recordedVideo = ev.resBlob;
-    console.log(this.recordedVideo);
+    // console.log(this.recordedVideo);
   }
 
   downloadCertificate(number: number) {

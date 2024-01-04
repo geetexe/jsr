@@ -49,7 +49,7 @@
                                   SearchCountryField.Name
                                 ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India"
                                 [maxLength]="15" [phoneValidation]="true" [separateDialCode]="separateDialCode"
-                                [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone">
+                                [numberFormat]="PhoneNumberFormat.International" name="phone" formControlName="phone">
                             </ngx-intl-tel-input>
                             <div *ngIf="(userForm.get('phone')?.touched && userForm.get('phone')?.dirty) &&
                                    userForm.get('phone')?.hasError('required')" class="errormsg my-2"
@@ -61,12 +61,17 @@
                                 class="errormsg my-2" role="alert">
                                 Please enter valid phone number.
                             </div>
+                            <div *ngIf="(userForm.get('phone')?.touched && userForm.get('phone')?.dirty) &&
+                            userForm.get('phone')?.hasError('invalidChar')"
+                         class="errormsg my-2" role="alert">
+                            Special characters are not allowed.
+                     </div>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-12 m-center">
 
-                            <!-- <button class="btn jsr-btn-submit text-white" (click)="navigateStep(1);">>>></button> -->
+                            <button class="btn jsr-btn-submit text-white" (click)="navigateStep(1);">>>></button>
                             <button class="btn jsr-btn-submit text-white" [disabled]="userForm.invalid || isLoading"
                                 (click)="submit()">{{isLoading ? 'Submitting...' : 'Submit'}}</button>
                         </div>
@@ -105,13 +110,13 @@
                 <!-- remove the video-container afterwards: -->
                 <div class="video-container">
                     <app-video-capture class="mb-2" [isRetake]="isRetake" (recordCompleted)="onRecordCompletion($event)"
-                        (isRetakeComplete)="isRetake = $event;"
+                        (isRetakeComplete)="isRetake = $event; videoParts = null;"
                         (isRecorded)="handleData($event)"></app-video-capture>
                 </div>
             </div>
             <div class="col-12 jsr-el-container d-flex justify-content-center mt-3 mb-5 gap-20">
                 <button class="btn jsr-btn-submit jsr-btn-retake" (click)="modalState=2" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop">Retake</button>
+                   [disabled]="!videoParts" data-bs-target="#staticBackdrop">Retake</button>
                 <button class="btn jsr-btn-submit text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                   [disabled]=" !videoParts"  (click)="triggerUploading()">Submit</button>
             </div>
@@ -138,17 +143,19 @@
                         <div class="col-md-8">
                             <label for="stateSelection" class="form-label fw-bold">Select Your State Name</label>
                             <div class="custom-select">
-                                <select formControlName="state" class="form-select" id="stateSelection" required>
-                                    <option selected disabled value="">Select your state</option>
-                                    <option *ngFor="let s of state">{{ s }}</option>
-                                </select>
+                                <fieldset [disabled]="finalFormSubmitted">
+                                    <select formControlName="state"  class="form-select" id="stateSelection" required>
+                                        <option selected disabled value="">Select your state</option>
+                                        <option *ngFor="let s of state">{{ s }}</option>
+                                    </select>
+                                </fieldset>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-8">
                             <label for="age" class="form-label fw-bold">Enter Your Age</label>
-                            <input type="number" formControlName="age" step="1" min="0" class="form-control" id="age"
+                            <input type="number" [readonly]="finalFormSubmitted" formControlName="age" step="1" min="0" class="form-control" id="age"
                                 placeholder="Enter Your Age" required>
 
                             <div *ngIf="(certificateForm.get('age')?.touched && certificateForm.get('age')?.dirty) &&

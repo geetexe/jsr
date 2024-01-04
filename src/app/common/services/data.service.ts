@@ -40,7 +40,7 @@ export class DataService {
       body.profileId = this.profileId;
     }
 
-    console.log(navigator.userAgent);
+    // console.log(navigator.userAgent);
 
     if (navigator.userAgent.indexOf('Safari') > -1 && !navigator.userAgent.includes('Chrome')) {
       body['videoFormat'] = 'mp4';
@@ -58,7 +58,7 @@ export class DataService {
       'x-api-key': environment.userToken,
       'Content-Type': 'binary/octet-stream'
     }
-    console.log(this.profileId);
+    // console.log(this.profileId);
     return this._http.put(this.videoUploadUrl, body, {headers: options});
   }
 
