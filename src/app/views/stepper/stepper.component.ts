@@ -238,7 +238,8 @@ export class StepperComponent {
                 // Add any additional styles for printing
               </style>
             </head>
-            <body>
+            
+            <body window.onafterprint = function() { window.close(); onload="${!!navigator.platform.match(/iPhone|iPod|iPad/) ? 'window.print()' : ''}">
               <div class="your-certificate">
               <img src="${src}" class="img-fluid certificate" /> 
                <span class="your-name">${this.username}</span>
@@ -254,6 +255,9 @@ export class StepperComponent {
       //   window.alert('ios not available');
       // }
 
+      if (!!navigator.platform.match(/iPhone|iPod|iPad/) ) {
+        return;
+      }
       html2canvas(popupWin.document.body, {
         allowTaint: false,
         useCORS : true,
