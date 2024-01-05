@@ -35,11 +35,20 @@
                                 Please enter your name
                             </div>
 
-                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
-                                   userForm.get('name')?.hasError('minLength')" class="errormsg my-2"
+
+                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty)
+                                   && (userForm.get('name')?.getError('minlength') && userForm.get('name')?.getError('minlength'))
+                                   " class="errormsg my-2"
                                 role="alert">
                                 Your name must contain atleast 3 characters
                             </div>
+
+
+                            <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
+                            userForm.get('name')?.hasError('maxlength')" class="errormsg my-2"
+                         role="alert">
+                         Your name should not exceed 32 characters
+                     </div>
 
                             <div *ngIf="(userForm.get('name')?.touched || userForm.get('name')?.dirty) &&
                             userForm.get('name')?.hasError('invalidChar')" class="errormsg my-2"

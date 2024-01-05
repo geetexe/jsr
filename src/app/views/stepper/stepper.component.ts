@@ -69,7 +69,7 @@ export class StepperComponent {
 
   ngOnInit(): void {
     this.userFormGroup = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3), this.validateSpecialChar]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(32), this.validateSpecialChar]),
       // age: new FormControl('', [Validators.required]),
       // phone: new FormControl('', [Validators.required, this.validateSpecialChar]),
     });
