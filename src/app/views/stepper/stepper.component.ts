@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
 import { DataService } from 'src/app/common/services/data.service';
 import html2canvas from 'html2canvas';
-
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
@@ -239,7 +238,7 @@ export class StepperComponent {
                 // Add any additional styles for printing
               </style>
             </head>
-            <body">
+            <body>
               <div class="your-certificate">
               <img src="${src}" class="img-fluid certificate" /> 
                <span class="your-name">${this.username}</span>
@@ -249,15 +248,70 @@ export class StepperComponent {
         `);
       popupWin.document.close();
 
-    html2canvas(popupWin.document.body).then((canvas: any) => {
-      const image = canvas.toDataURL('image/png');
+      // if (/iPad|iPhone|iPod/.test(navigator.userAgent) && /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+      //   window.alert("chrome in ios");
+      // } else {
+      //   window.alert('ios not available');
+      // }
 
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = 'certificate.png';
+      html2canvas(popupWin.document.body, {
+        allowTaint: false,
+        useCORS : true,
+  
+      }).then((canvas: any) => {
+        const image = canvas.toDataURL('image/png');
+  
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = !number ?  'certificate-hindi.png' : 'certificate-english.png';
+  
+        link.click();
+      });
 
-      link.click();
-    });
+  //   toBlob(popupWin.document.body)
+  // .then((blob: any) => {
+  //   // const link = document.createElement('a')
+  //   // link.download = 'my-image-name.png'
+  //   // link.href = dataUrl;
+  //   // link.click();
+
+  //   saveAs(blob, 'my-node.png');
+
+
+  // });
+
+  // DomToImage.toPng(popupWin.document.body)
+  // .then((dataUrl: any) => {
+  //   const link = document.createElement('a');
+  //   link.href = dataUrl;
+  //   link.download = 'certificate.png';
+  //   link.click();
+  // })
+  // .catch((error: any) => {
+  //   console.error('Error generating image:', error);
+  // });
+
+    // var opt = {
+    //   margin:       0,
+    //   filename:     'myfile.pdf',
+    //   image:        { type: 'jpeg', quality: 0.98 },
+    //   html2canvas:  { scale:  1 },
+    //   jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    // };
+
+    // html2pdf().set(opt).from(popupWin.document.body).save();
+
+    // domToImage.toPng(popupWin.document.body).then((dataUrl: any) => {
+    //   // Create an "a" element to trigger the download
+    //   console.log(dataUrl);
+    //   const link = document.createElement('a');
+    //   link.href = dataUrl;
+    //   link.download = 'certificate.png';
+  
+    //   // Trigger a click on the "a" element to start the download
+    //   link.click();
+    // });
+    // html2pdf(popupWin.document.body, opt);
     }
   }
 
