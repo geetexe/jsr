@@ -1,9 +1,11 @@
 <div class="video-container">
     <div>
-      <video [ngClass]="{'isVisible': showPreview, 'hidden': !showPreview}" id="video-1" class="video" #video autoplay></video>
+      <video  [ngClass]="{'isVisible': showPreview, 'hidden': !showPreview}"
+       id="video-1" class="video" id="vid-1" #video autoplay></video>
     </div>
     <video class="video"
-            [ngClass]="{'isVisible': !showPreview, 'hidden': showPreview}" controls #recordedVideo></video>
+            [ngClass]="{'isVisible': !showPreview, 'hidden': showPreview}"
+             controls #recordedVideo></video>
     <br>
     <button class="action-btn" *ngIf="!isRecording && !isRecordCompelte" (click)="startRecording()">
       <img src="/assets/img/play-icon.svg" alt="JSR"/>

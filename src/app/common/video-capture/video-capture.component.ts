@@ -72,6 +72,8 @@ export class VideoCaptureComponent implements OnInit, OnDestroy {
 
         this.stream = stream;
         this.videoElement.srcObject = this.stream;
+        const el: any = document?.getElementById('vid-1');
+         el.volume = 0;
       }).catch((err) => {
           console.log(err);
           window.alert('Please allow permission for camera & audio access')
@@ -87,7 +89,10 @@ export class VideoCaptureComponent implements OnInit, OnDestroy {
         window.alert('Please allow permission for camera & audio access');
         return;
       }
-    })
+    });
+
+   
+
     this.isRecording = !this.isRecording;
     this.recordedBlobs = [];
     let options: any = {
