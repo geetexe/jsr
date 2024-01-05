@@ -222,6 +222,9 @@
         width: 100%;
         margin-bottom: 79px;
         margin-left: 102px;
+        @media (min-width: 768px) and (max-width: 1024px) {
+            margin: 0px;
+        }
         @media (max-width: 767px) {
             margin: auto;
         }
@@ -460,4 +463,25 @@
 .app-footer{
     width: 100%;
     bottom:0;
+}
+.main-body{
+    padding-bottom: 360px;
+    @media (min-width: 768px) and (max-width: 1024px) {
+        margin-top: 150px;
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tab-back{
+        padding: 0;
+        margin-top: 20px;
+    }
+    .tab-form{
+        margin-top: 80px;
+    }
+    .sc-3{
+        margin-top: 80px;
+    }
+}
+.tab-content{
+    padding-bottom: 400px;
 }
