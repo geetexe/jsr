@@ -8,6 +8,9 @@
     <ng-container *ngSwitchCase="2">
         <ng-container *ngTemplateOutlet="step2"></ng-container>
     </ng-container>
+    <ng-container *ngSwitchCase="3">
+        <ng-container *ngTemplateOutlet="step3"></ng-container>
+    </ng-container>
 </ng-container>
 
 <ng-template #sideGraphic>
@@ -18,6 +21,11 @@
 </ng-template>
 
 <ng-template #step0>
+    <button type="button" (click)="navigateStep(1)" class="btn jsr-btn-submit">Click here to enter</button>
+</ng-template>
+
+
+<ng-template #step1>
     <app-header></app-header>
     <div class="container">
         <div class="row main-body">
@@ -112,7 +120,7 @@
     </div> -->
 </ng-template>
 
-<ng-template #step1>
+<ng-template #step2>
     <div class="container tab-content">
         <div class="row">
             <div class="col-12 m-center pa-0 tab-back">
@@ -149,7 +157,7 @@
     </div>
 </ng-template>
 
-<ng-template #step2>
+<ng-template #step3>
     <div class="container tab-content">
         <div class="row">
             <div class="col-12 pa-0 tab-back">
